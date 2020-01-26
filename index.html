@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>Document</title>
+    <style>
+        body, html {
+            height: 100%;
+            display: grid;
+            grid-template-rows: 50% repeat(auto-fill, 1fr);
+        }
+
+        #display-box {
+            margin: auto;
+        }
+
+        #input-form {
+            margin: auto auto 0.75em;
+        }
+    </style>
+</head>
+<body>
+<h1 id="display-box"></h1>
+<form id="input-form">
+    <label for="input">This says</label>
+    <input id="input" placeholder="Otherwise" type="text">
+    <button type="submit">Go</button>
+</form>
+</body>
+<script>
+    function extractBase(path) {
+        return path.substr(path.lastIndexOf("/") + 1);
+    }
+
+    // show display text
+    const currentInput = decodeURI(window.location.pathname);
+    const isEmpty = currentInput === "" || currentInput === "/";
+    const displayText = isEmpty ? "Otherwise" : extractBase(currentInput);
+    document.getElementById("display-box").innerText = displayText;
+
+    // Set up input
+    document.getElementById("input-form").addEventListener("submit", e => {
+        e.preventDefault();
+
+        const input = document.getElementById("input").value;
+        window.location.assign(encodeURI(input)); // TODO: error handling?
+    })
+</script>
+</html>
